@@ -75,7 +75,8 @@ module MediaInfo
 
   def self.from_local_file(input)
     absolute_path = File.expand_path(input) # turns relative to absolute path
-
+    puts absolute_path
+    
     raise ArgumentError, 'You must include a file location.' if absolute_path.nil?
     raise ArgumentError, "need a path to a video file, #{absolute_path} does not exist" unless File.exist?(absolute_path)
 
@@ -89,8 +90,7 @@ module MediaInfo
 
   def self.run(input = nil)
     raise ArgumentError, 'Your input cannot be blank.' if input.nil?
-    command = "#{location} '#{input}' --Output=XML"
-    raw_response, errors, status = Open3.capture3(command)
+    raw_response, errors, status = Open3.capture3(location, input, "--Output=XML")
     unless status.exitstatus == 0
       raise ExecutionError, "Execution of '#{command}' failed: \n #{errors.red}"
     end

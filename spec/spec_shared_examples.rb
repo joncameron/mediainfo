@@ -12,6 +12,10 @@ RSpec.shared_examples 'expected from class method for a file' do
       expect{MediaInfo.from('./spec/fixtures/xml/multiple_streams_with:id-2.xml')}.not_to raise_error
     end
 
+    it 'single quote in path does not raise an error' do
+      expect{MediaInfo.from("./spec/fixtures/xml/multiple_streams_with\'id-3.xml")}.not_to raise_error
+    end
+
     it 'returns an instance of MediaInfo::Tracks' do
       expect(MediaInfo.from(input)).to be_an_instance_of(MediaInfo::Tracks)
     end
